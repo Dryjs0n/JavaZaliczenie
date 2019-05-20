@@ -27,7 +27,7 @@ import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AdminController implements Initializable {
+public class AdminController implements Initializable  {
 //
 //    UCZEN DANE
 //
@@ -591,6 +591,7 @@ public class AdminController implements Initializable {
             try {
                 Stage loginStage = (Stage) this.logoutucz.getScene().getWindow();
                 loginStage.close();
+                LogowanieApp.window.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }

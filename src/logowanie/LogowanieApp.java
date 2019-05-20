@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class LogowanieApp extends Application {
 
-    Stage window = new Stage();
+    public static Stage window = new Stage();
 
     public void start(Stage stage)throws Exception{
         window=stage;

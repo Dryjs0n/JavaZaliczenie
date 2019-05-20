@@ -11,6 +11,7 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import logowanie.LogowanieApp;
 
 import javax.print.DocFlavor;
 import java.net.URL;
@@ -141,6 +142,7 @@ public class NauczycielController implements Initializable {
             try {
                 Stage loginStage = (Stage) this.wylogujButton.getScene().getWindow();
                 loginStage.close();
+                LogowanieApp.window.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }

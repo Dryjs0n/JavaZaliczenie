@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import logowanie.LogowanieApp;
 import logowanie.LogowanieController;
 import nauczyciel.NauczycielController;
 import uczen.UczenController;
@@ -118,6 +119,7 @@ public class UczenController implements Initializable {
             try {
                 Stage loginStage = (Stage) this.wyloguj.getScene().getWindow();
                 loginStage.close();
+                LogowanieApp.window.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
