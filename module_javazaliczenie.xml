@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_javazaliczenie" default="compile.module.javazaliczenie">
+  <dirname property="module.javazaliczenie.basedir" file="${ant.file.module_javazaliczenie}"/>
+  
+  <property name="module.jdk.home.javazaliczenie" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.javazaliczenie" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.javazaliczenie" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.javazaliczenie" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="javazaliczenie.output.dir" value="${module.javazaliczenie.basedir}/out/production/JavaZaliczenie"/>
+  <property name="javazaliczenie.testoutput.dir" value="${module.javazaliczenie.basedir}/out/test/JavaZaliczenie"/>
+  
+  <path id="javazaliczenie.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="javazaliczenie.module.production.classpath">
+    <path refid="${module.jdk.classpath.javazaliczenie}"/>
+    <path refid="library.sqlite-jdbc-3.7.2.classpath"/>
+  </path>
+  
+  <path id="javazaliczenie.runtime.production.module.classpath">
+    <pathelement location="${javazaliczenie.output.dir}"/>
+    <path refid="library.sqlite-jdbc-3.7.2.classpath"/>
+  </path>
+  
+  <path id="javazaliczenie.module.classpath">
+    <path refid="${module.jdk.classpath.javazaliczenie}"/>
+    <pathelement location="${javazaliczenie.output.dir}"/>
+    <path refid="library.sqlite-jdbc-3.7.2.classpath"/>
+  </path>
+  
+  <path id="javazaliczenie.runtime.module.classpath">
+    <pathelement location="${javazaliczenie.testoutput.dir}"/>
+    <pathelement location="${javazaliczenie.output.dir}"/>
+    <path refid="library.sqlite-jdbc-3.7.2.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.javazaliczenie">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.javazaliczenie">
+    <patternset refid="excluded.from.module.javazaliczenie"/>
+  </patternset>
+  
+  <path id="javazaliczenie.module.sourcepath">
+    <dirset dir="${module.javazaliczenie.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.javazaliczenie" depends="compile.module.javazaliczenie.production,compile.module.javazaliczenie.tests" description="Compile module JavaZaliczenie"/>
+  
+  <target name="compile.module.javazaliczenie.production" depends="register.custom.compilers" description="Compile module JavaZaliczenie; production classes">
+    <mkdir dir="${javazaliczenie.output.dir}"/>
+    <javac2 destdir="${javazaliczenie.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.javazaliczenie}/javac">
+      <compilerarg line="${compiler.args.javazaliczenie}"/>
+      <bootclasspath refid="javazaliczenie.module.bootclasspath"/>
+      <classpath refid="javazaliczenie.module.production.classpath"/>
+      <src refid="javazaliczenie.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.javazaliczenie"/>
+    </javac2>
+    
+    <copy todir="${javazaliczenie.output.dir}">
+      <fileset dir="${module.javazaliczenie.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.javazaliczenie.tests" depends="register.custom.compilers,compile.module.javazaliczenie.production" description="compile module JavaZaliczenie; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.javazaliczenie" description="cleanup module">
+    <delete dir="${javazaliczenie.output.dir}"/>
+    <delete dir="${javazaliczenie.testoutput.dir}"/>
+  </target>
+</project>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.AdminController">
+   <children>
+      <TabPane prefHeight="750.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Uczniowie">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="321.0" layoutY="2.0" prefHeight="719.0" prefWidth="880.0">
+                           <children>
+                              <TableView fx:id="uczenTable" prefHeight="719.0" prefWidth="879.0">
+                                <columns>
+                                  <TableColumn fx:id="imieColumn" prefWidth="210.0" text="Imie" />
+                                  <TableColumn fx:id="nazwiskoColumn" prefWidth="262.0" text="Nazwisko" />
+                                    <TableColumn fx:id="data_urColumn" prefWidth="223.0" text="Data Urodzenia" />
+                                    <TableColumn fx:id="loginColumn" prefWidth="183.0" text="Login" />
+                                    <TableColumn fx:id="uczenIDCol" minWidth="0.0" prefWidth="0.0" text="ID" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <VBox layoutY="2.0" prefHeight="720.0" prefWidth="323.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="29.0" prefWidth="324.0" text="Dodaj Ucznia" />
+                              <TextField fx:id="imie" promptText="Imie">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="nazwisko" layoutX="10.0" layoutY="89.0" promptText="Nazwisko">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="login" layoutX="10.0" layoutY="64.0" promptText="Login">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <DatePicker fx:id="data_ur" prefHeight="25.0" prefWidth="322.0" promptText="Data Urodzenia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                              <Button mnemonicParsing="false" onAction="#dodajUcznia" prefHeight="25.0" prefWidth="301.0" text="Dodaj">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="139.0" mnemonicParsing="false" onAction="#wyczyscPola" prefHeight="25.0" prefWidth="301.0" text="Wyczyść">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="164.0" mnemonicParsing="false" onAction="#zaladujDaneUczniow" prefHeight="25.0" prefWidth="301.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotUczen" alignment="CENTER" prefHeight="17.0" prefWidth="360.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="257.0" prefWidth="323.0" text="Usuń Ucznia" />
+                              <Button layoutX="30.0" layoutY="139.0" mnemonicParsing="false" onAction="#usunUcznia" prefHeight="25.0" prefWidth="301.0" text="Usuń">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="189.0" mnemonicParsing="false" onAction="#zaladujDaneUczniow" prefHeight="25.0" prefWidth="301.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotUczenDel" alignment="CENTER" layoutX="10.0" layoutY="234.0" prefHeight="17.0" prefWidth="360.0" />
+                              <Button fx:id="logoutucz" mnemonicParsing="false" onAction="#wylogujUcz" text="Wyloguj się">
+                                 <VBox.margin>
+                                    <Insets left="122.0" top="50.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Nauczyciele">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="321.0" layoutY="2.0" prefHeight="719.0" prefWidth="880.0">
+                           <children>
+                              <TableView fx:id="nauczTable" prefHeight="719.0" prefWidth="879.0">
+                                 <columns>
+                                    <TableColumn fx:id="nimieCol" prefWidth="186.0" text="Imie" />
+                                    <TableColumn fx:id="nnazwiskoCol" prefWidth="211.0" text="Nazwisko" />
+                                    <TableColumn fx:id="ndata_urCol" prefWidth="169.0" text="Data Urodzenia" />
+                                    <TableColumn fx:id="pensjaCol" prefWidth="132.0" text="Pensja" />
+                                    <TableColumn fx:id="nloginCol" minWidth="0.0" prefWidth="180.0" text="Login" />
+                                    <TableColumn fx:id="nauczIDCol" minWidth="0.0" prefWidth="0.0" text="ID" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <VBox layoutY="2.0" prefHeight="720.0" prefWidth="323.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="29.0" prefWidth="324.0" text="Dodaj Nauczyciela" />
+                              <TextField fx:id="imien" promptText="Imie">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="nazwiskon" layoutX="10.0" layoutY="89.0" promptText="Nazwisko">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="loginn" layoutX="10.0" layoutY="64.0" promptText="Login">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <DatePicker fx:id="data_urn" prefHeight="25.0" prefWidth="322.0" promptText="Data Urodzenia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                              <TextField fx:id="pensja" layoutX="30.0" layoutY="89.0" promptText="Pensja">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" onAction="#dodajNauczyciela" prefHeight="25.0" prefWidth="301.0" text="Dodaj">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="139.0" mnemonicParsing="false" onAction="#wyczyscPolaN" prefHeight="25.0" prefWidth="301.0" text="Wyczyść">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="164.0" mnemonicParsing="false" onAction="#zaladujDaneNauczycieli" prefHeight="25.0" prefWidth="301.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotNaucz" alignment="CENTER" prefHeight="17.0" prefWidth="324.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="231.0" prefWidth="323.0" text="Usuń Nauczyciela" />
+                              <Button layoutX="30.0" layoutY="139.0" mnemonicParsing="false" onAction="#usunNauczyciela" prefHeight="25.0" prefWidth="301.0" text="Usuń">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="189.0" mnemonicParsing="false" onAction="#zaladujDaneNauczycieli" prefHeight="25.0" prefWidth="301.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotNauczDel" alignment="CENTER" prefHeight="17.0" prefWidth="355.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="logoutnaucz" mnemonicParsing="false" onAction="#wylogujUcz" text="Wyloguj się">
+                                 <VBox.margin>
+                                    <Insets left="122.0" top="50.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Logowanie">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="321.0" layoutY="2.0" prefHeight="719.0" prefWidth="880.0">
+                           <children>
+                              <TableView fx:id="logowanieTab" prefHeight="719.0" prefWidth="879.0">
+                                 <columns>
+                                    <TableColumn fx:id="loginlCol" prefWidth="282.0" text="Login" />
+                                    <TableColumn fx:id="haslolCol" prefWidth="279.0" text="Hasło" />
+                                    <TableColumn fx:id="grupaCol" prefWidth="317.0" text="Grupa" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <VBox layoutY="2.0" prefHeight="720.0" prefWidth="323.0">
+                           <children>
+                              <Label alignment="BOTTOM_CENTER" prefHeight="121.0" prefWidth="323.0" text="Zmień Hasło Użytkownika" />
+                              <TextField fx:id="loginl" promptText="Login">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <PasswordField fx:id="haslo" promptText="Hasło">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </PasswordField>
+                              <Button mnemonicParsing="false" onAction="#dodajUzytkownika" prefHeight="25.0" prefWidth="301.0" text="Zmień">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="139.0" mnemonicParsing="false" onAction="#wyczyscPolaL" prefHeight="25.0" prefWidth="301.0" text="Wyczyść">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button layoutX="30.0" layoutY="164.0" mnemonicParsing="false" onAction="#zaladujDaneUzytkownikow" prefHeight="25.0" prefWidth="301.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotLogowanie" alignment="CENTER" prefHeight="17.0" prefWidth="339.0">
+                                 <padding>
+                                    <Insets top="50.0" />
+                                 </padding>
+                              </Label>
+                              <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="278.0" prefWidth="323.0" />
+                              <Button fx:id="logoutucz1" mnemonicParsing="false" onAction="#wylogujUcz" text="Wyloguj się">
+                                 <VBox.margin>
+                                    <Insets left="122.0" top="75.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Zajęcia">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="321.0" layoutY="2.0" prefHeight="719.0" prefWidth="880.0">
+                           <children>
+                              <TableView fx:id="zajTab" prefHeight="719.0" prefWidth="879.0">
+                                 <columns>
+                                    <TableColumn fx:id="zajnazwaCol" prefWidth="183.0" text="Nazwa Zajęć" />
+                                    <TableColumn fx:id="zajnrCol" prefWidth="215.0" text="Numer Pokoju" />
+                                    <TableColumn fx:id="zajimieCol" prefWidth="232.0" text="Imię Nauczyciela" />
+                                    <TableColumn fx:id="zajnazwCol" prefWidth="248.0" text="Nazwisko Nauczyciela" />
+                                    <TableColumn fx:id="zajIDCol" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="ID" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <VBox layoutY="-2.0" prefHeight="721.0" prefWidth="323.0">
+                           <children>
+                              <Button layoutX="30.0" layoutY="164.0" mnemonicParsing="false" onAction="#zaladujZajecia" prefHeight="12.0" prefWidth="283.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="200.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="usunZajecia" layoutX="30.0" layoutY="210.0" mnemonicParsing="false" onAction="#usunZajecia" prefHeight="25.0" prefWidth="357.0" text="Usuń zajęcia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="70.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotZajDel" alignment="CENTER" prefHeight="17.0" prefWidth="391.0" />
+                              <Label fx:id="zwrotZajecia" alignment="CENTER" prefHeight="279.0" prefWidth="323.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="logoutucz2" mnemonicParsing="false" onAction="#wylogujUcz" text="Wyloguj się">
+                                 <VBox.margin>
+                                    <Insets left="122.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
