@@ -83,17 +83,23 @@ public class NauczycielController implements Initializable {
     @FXML
     private TableColumn loginCol;
 
+    @FXML
+    private TableColumn IDCol;
+
+    ObservableList<UczniowieDane> uczniowie;
+
+
 
     @FXML
     private void zaladujUczniow(){
         try{
-            String sql = "SELECT imie, nazwisko, logowanie_login FROM uczen";
+            String sql = "SELECT imie, nazwisko, logowanie_login, id FROM uczen";
             Connection conn = dbConnection.getConnection();
             this.uczniowieDane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sql);
             while(rs.next()){
-                this.uczniowieDane.add(new UczniowieDane(rs.getString(1),rs.getString(2),rs.getString(3)));
+                this.uczniowieDane.add(new UczniowieDane(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)));
             }
 
         }catch(SQLException e){
@@ -103,6 +109,7 @@ public class NauczycielController implements Initializable {
         this.imieCol.setCellValueFactory(new PropertyValueFactory<UczniowieDane, String>("imie"));
         this.nazwiskoCol.setCellValueFactory(new PropertyValueFactory<UczniowieDane, String>("nazwisko"));
         this.loginCol.setCellValueFactory(new PropertyValueFactory<UczniowieDane, String>("login"));
+        this.IDCol.setCellValueFactory(new PropertyValueFactory<UczniowieDane, String>("id"));
 
 
         this.uczniowieTab.setItems(null);
@@ -111,6 +118,7 @@ public class NauczycielController implements Initializable {
         this.imieCol.setResizable(false);
         this.nazwiskoCol.setResizable(false);
         this.loginCol.setResizable(false);
+        this.IDCol.setResizable(false);
     }
 
 
@@ -305,8 +313,7 @@ public class NauczycielController implements Initializable {
 
     ObservableList<String> wartosci = FXCollections.observableArrayList("1","2","2.5","3","3.5","4","4.5","5");
 
-    @FXML
-    private TextField pobierzLogin;
+
     @FXML
     private ComboBox<String> wyborPrzedmiot;
     ObservableList<String> przedmioty = FXCollections.observableArrayList("Matematyka","Fizyka","Polski","Angielski","Francuski");
@@ -316,27 +323,31 @@ public class NauczycielController implements Initializable {
 
     @FXML
     private void dodajOcene() {
+        uczniowie = uczniowieTab.getSelectionModel().getSelectedItems();
+
+        String id = uczniowie.get(0).getId();
+        String login;
         String sql = "INSERT INTO ocena (przedmiot, wartosc, uczen_id) VALUES(?,?,?)";
         String uczen_id;
-        String sqlu = "SELECT id FROM uczen WHERE logowanie_login=?";
-        if (this.pobierzLogin.getText().isEmpty()||this.wyborWartosci.getValue().isEmpty()||this.wyborPrzedmiot.getValue().isEmpty()) {
+//        String sqlu = "SELECT login FROM uczen WHERE id=?";
+        if (this.wyborWartosci.getValue().isEmpty()||this.wyborPrzedmiot.getValue().isEmpty()) {
             ocenaDodana.setText("Jedno lub więcej pól pozostało puste. Proszę poprawić.");
         } else {
             try {
                 Connection conn = dbConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
-                PreparedStatement stmtu = conn.prepareStatement(sqlu);
+//                PreparedStatement stmtu = conn.prepareStatement(sqlu);
 
-                stmtu.setString(1, this.pobierzLogin.getText());
+//                stmtu.setString(1,  id);
 //                System.out.println(this.pobierzLogin.getText());
-                ResultSet rs = stmtu.executeQuery();
-                if (rs.next()) {
+//                ResultSet rs = stmtu.executeQuery();
+
                     try {
 //                        System.out.println("przeszło");
-                        uczen_id = rs.getString(1);
+
                         stmt.setString(1, this.wyborPrzedmiot.getValue().toString());
                         stmt.setString(2, this.wyborWartosci.getValue().toString());
-                        stmt.setString(3, uczen_id);
+                        stmt.setString(3, id);
 
                         stmt.execute();
                         conn.close();
@@ -348,9 +359,7 @@ public class NauczycielController implements Initializable {
                     }
 
 
-                } else {
-                    ocenaDodana.setText("Nie ma takiego loginu.");
-                }
+
             } catch (SQLException e) {
 
             }

@@ -7,11 +7,24 @@ public class UczniowieDane {
     private final StringProperty imie;
     private final StringProperty nazwisko;
     private final StringProperty login;
-
-    public UczniowieDane(String imie, String nazwisko, String login){
+    private final StringProperty id;
+    public UczniowieDane(String imie, String nazwisko, String login, String id){
         this.imie = new SimpleStringProperty(imie);
         this.nazwisko = new SimpleStringProperty(nazwisko);
         this.login = new SimpleStringProperty(login);
+        this.id = new SimpleStringProperty(id);
+    }
+
+    public String getId() {
+        return id.get();
+    }
+
+    public StringProperty idProperty() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id.set(id);
     }
 
     public String getImie() {
