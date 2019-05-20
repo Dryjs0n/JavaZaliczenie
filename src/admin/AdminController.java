@@ -261,6 +261,7 @@ public class AdminController implements Initializable {
                 conn.close();
 
                 zwrotNaucz.setText("Pomyślnie dodano nauczyciela");
+                zaladujDaneNauczycieli();
 
                 this.imien.setText("");
                 this.nazwiskon.setText("");
@@ -502,6 +503,7 @@ public class AdminController implements Initializable {
 
 
                         zwrotNauczDel.setText("Pomyślnie usunięto nauczyciela!");
+                        zaladujDaneNauczycieli();
 
                 } catch (SQLException e) {
                     e.printStackTrace();
