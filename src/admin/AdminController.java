@@ -282,6 +282,7 @@ public class AdminController implements Initializable  {
 
         String login = uzytkownicy.get(0).getLogin();
 
+
         String sql = "UPDATE logowanie SET haslo=? WHERE login=?";
         if( this.haslo.getText().isEmpty()) {
             zwrotLogowanie.setText("Pole login lub hasło nie może być puste!");
