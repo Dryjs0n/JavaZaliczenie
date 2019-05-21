@@ -1,5 +1,6 @@
 package admin;
 
+
 import com.sun.javaws.jnl.JavaFXAppDesc;
 import com.sun.org.glassfish.external.statistics.annotations.Reset;
 import javafx.application.Application;
@@ -108,6 +109,7 @@ public class AdminController implements Initializable  {
             zaladujZajecia();
             zaladujDaneNauczycieli();
             zaladujDaneUzytkownikow();
+            zaladujPrzypisania();
             this.wybierzZajeciaPrzedmiot.setItems(FXCollections.observableArrayList(przedmioty));
             this.wybierzZajeciaNr.setItems(FXCollections.observableArrayList(numery));
 
@@ -769,7 +771,107 @@ public class AdminController implements Initializable  {
 
     }
 
+    @FXML
+    private TableView<UczenNauczDane> uczenNauczTab;
+    @FXML
+    private TableColumn uczenNauczUImieCol;
+    @FXML
+    private TableColumn uczenNauczUNazwCol;
+    @FXML
+    private TableColumn uczenNauczNImieCol;
+    @FXML
+    private TableColumn uczenNauczNNazwCol;
+    @FXML
+    private TableColumn uczenNauczUIDCol;
+    @FXML
+    private TableColumn uczenNauczNIDCol;
+    @FXML
+    private Label zwrotPrzypisanie;
+    @FXML
+    private Label zwrotPrzypisanieDel;
 
 
+    private ObservableList<UczenNauczDane> uczenNauczDane;
+
+    @FXML
+    private void zaladujPrzypisania(){
+        String sql ="SELECT u.imie AS uimie,u.nazwisko AS unazw,n.imie AS nimie, n.nazwisko AS nnazw,u.id AS uid, n.id AS nid FROM uczen u INNER JOIN nauczyciel n INNER JOIN uczenNauczyciel un ON u.id = uczen_id AND n.id = nauczyciel_id";
+        try{
+            Connection conn = dbConnection.getConnection();
+            this.uczenNauczDane = FXCollections.observableArrayList();
+
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            while(rs.next()) {
+                this.uczenNauczDane.add(new UczenNauczDane(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+            }
+            conn.close();
+            this.zwrotPrzypisanieDel.setText("");
+            this.zwrotPrzypisanie.setText("");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        this.uczenNauczUIDCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("uid"));
+        this.uczenNauczNIDCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("nid"));
+        this.uczenNauczUImieCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("uimie"));
+        this.uczenNauczUNazwCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("unazwisko"));
+        this.uczenNauczNImieCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("nimie"));
+        this.uczenNauczNNazwCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("nnazwisko"));
+
+
+        this.uczenNauczTab.setItems(null);
+        this.uczenNauczTab.setItems(this.uczenNauczDane);
+    }
+
+
+
+    @FXML
+    private void przypiszUN(){
+        uczniowie = uczenTable.getSelectionModel().getSelectedItems();
+        nauczyciele = nauczTable.getSelectionModel().getSelectedItems();
+        String uid = uczniowie.get(0).getId();
+        String nid = nauczyciele.get(0).getId();
+        String sql = "INSERT INTO uczenNauczyciel (uczen_id, nauczyciel_id) VALUES(?,?)";
+        try{
+            Connection conn = dbConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uid);
+            stmt.setString(2, nid);
+
+            stmt.execute();
+            conn.close();
+
+            zaladujPrzypisania();
+            this.zwrotPrzypisanie.setText("Pomyślnie dodano przypisanie.");
+
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @FXML
+    private void usunPrzypisanieUN(){
+        uczenNauczDane = uczenNauczTab.getSelectionModel().getSelectedItems();
+        String uczen_id = uczenNauczDane.get(0).getUid();
+        String nauczyciel_id = uczenNauczDane.get(0).getNid();
+        String sql = "DELETE FROM uczenNauczyciel WHERE uczen_id = ? AND nauczyciel_id = ?";
+        try{
+            Connection conn = dbConnection.getConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, uczen_id);
+            stmt.setString(2,nauczyciel_id);
+            stmt.execute();
+            conn.close();
+
+            zaladujPrzypisania();
+            this.zwrotPrzypisanieDel.setText("Przypisanie usunięto pomyślnie.");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
 }

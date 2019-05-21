@@ -57,9 +57,9 @@
                            <children>
                               <TableView fx:id="uczniowieTab" prefHeight="672.0" prefWidth="930.0">
                                 <columns>
-                                  <TableColumn fx:id="imieCol" prefWidth="323.0" text="Imię ucznia" />
-                                  <TableColumn fx:id="nazwiskoCol" minWidth="0.0" prefWidth="308.0" text="Nazwisko Ucznia" />
-                                    <TableColumn fx:id="loginCol" prefWidth="258.0" text="Login Ucznia" />
+                                  <TableColumn fx:id="imieCol" prefWidth="429.0" text="Imię ucznia" />
+                                  <TableColumn fx:id="nazwiskoCol" minWidth="0.0" prefWidth="460.0" text="Nazwisko Ucznia" />
+                                    <TableColumn fx:id="loginCol" minWidth="0.0" prefWidth="0.0" text="Login Ucznia" />
                                     <TableColumn fx:id="IDCol" minWidth="0.0" prefWidth="0.0" text="ID" />
                                 </columns>
                               </TableView>
