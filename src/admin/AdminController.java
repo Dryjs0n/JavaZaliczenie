@@ -274,26 +274,33 @@ public class AdminController implements Initializable  {
         }
     }
 
+    ObservableList<LogowanieDane> uzytkownicy;
+
     @FXML
-    private void dodajUzytkownika(ActionEvent event){
+    private void dodajUzytkownika(){
+        uzytkownicy = logowanieTab.getSelectionModel().getSelectedItems();
+
+        String login = uzytkownicy.get(0).getLogin();
+
         String sql = "UPDATE logowanie SET haslo=? WHERE login=?";
-        if(this.loginl.getText().isEmpty() || this.haslo.getText().isEmpty()) {
+        if( this.haslo.getText().isEmpty()) {
             zwrotLogowanie.setText("Pole login lub hasło nie może być puste!");
         }else{try {
             Connection conn = dbConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setString(2, this.loginl.getText());
+            stmt.setString(2, login);
             stmt.setString(1, this.haslo.getText());
 
 
             stmt.execute();
             conn.close();
 
-            this.loginl.setText("");
+            wyczyscPolaL();
             this.haslo.setText("");
 
             zwrotLogowanie.setText("Hasło zostało zmienione!");
+            zaladujDaneUzytkownikow();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -517,8 +524,7 @@ public class AdminController implements Initializable  {
 
 //    ObservableList<String> grupy = FXCollections.observableArrayList("Nauczyciel","Uczen");
 
-    @FXML
-    private TextField loginl;
+
     @FXML
     private PasswordField haslo;
     @FXML
@@ -561,8 +567,7 @@ public class AdminController implements Initializable  {
     }
 
     @FXML
-    private void wyczyscPolaL(ActionEvent event){
-        this.loginl.setText("");
+    private void wyczyscPolaL(){
         this.haslo.setText("");
     }
 //    @FXML
