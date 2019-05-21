@@ -215,9 +215,10 @@ public class AdminController implements Initializable  {
             this.data_ur.setValue(null);
             this.login.setText("");
 
+            zaladujDaneUczniow();
             zwrotUczen.setText("Dodano ucznia");
 
-            zaladujDaneUczniow();
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -260,9 +261,9 @@ public class AdminController implements Initializable  {
                 stmt1.execute();
                 stmt2.execute();
                 conn.close();
-
-                zwrotNaucz.setText("Pomyślnie dodano nauczyciela");
                 zaladujDaneNauczycieli();
+                zwrotNaucz.setText("Pomyślnie dodano nauczyciela");
+
 
                 this.imien.setText("");
                 this.nazwiskon.setText("");
@@ -301,8 +302,10 @@ public class AdminController implements Initializable  {
             wyczyscPolaL();
             this.haslo.setText("");
 
-            zwrotLogowanie.setText("Hasło zostało zmienione!");
+
             zaladujDaneUzytkownikow();
+            zwrotLogowanie.setText("Hasło zostało zmienione!");
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -374,8 +377,10 @@ public class AdminController implements Initializable  {
                         conn.close();
 
 //                        this.uczenDel.setText("");
-                        zwrotUczenDel.setText("Pomyślnie usunięto ucznia");
                         zaladujDaneUczniow();
+
+                        zwrotUczenDel.setText("Pomyślnie usunięto ucznia");
+
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -459,7 +464,7 @@ public class AdminController implements Initializable  {
     ObservableList<NauczycielDane> nauczyciele;
 
     @FXML
-    private void usunNauczyciela(ActionEvent event){
+    private void usunNauczyciela(){
         String id ="";
         String login;
 
@@ -511,9 +516,9 @@ public class AdminController implements Initializable  {
                         stmt4.execute();
                         conn.close();
 
-
-                        zwrotNauczDel.setText("Pomyślnie usunięto nauczyciela!");
                         zaladujDaneNauczycieli();
+                        zwrotNauczDel.setText("Pomyślnie usunięto nauczyciela!");
+
 
                 } catch (SQLException e) {
                     e.printStackTrace();
