@@ -110,6 +110,7 @@ public class AdminController implements Initializable  {
             zaladujDaneNauczycieli();
             zaladujDaneUzytkownikow();
             zaladujPrzypisania();
+            zaladujPrzypisaniaZajec();
             this.wybierzZajeciaPrzedmiot.setItems(FXCollections.observableArrayList(przedmioty));
             this.wybierzZajeciaNr.setItems(FXCollections.observableArrayList(numery));
 
@@ -817,9 +818,67 @@ public class AdminController implements Initializable  {
         this.uczenNauczNImieCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("nimie"));
         this.uczenNauczNNazwCol.setCellValueFactory(new PropertyValueFactory<UczenNauczDane, String>("nnazwisko"));
 
+        this.uczenNauczUIDCol.setResizable(false);
+        this.uczenNauczNIDCol.setResizable(false);
+        this.uczenNauczUImieCol.setResizable(false);
+        this.uczenNauczUNazwCol.setResizable(false);
+        this.uczenNauczNImieCol.setResizable(false);
+        this.uczenNauczNNazwCol.setResizable(false);
+
 
         this.uczenNauczTab.setItems(null);
         this.uczenNauczTab.setItems(this.uczenNauczDane);
+    }
+
+
+    ObservableList<UczniowieZajeciaDane> uczzajdane;
+
+
+    @FXML
+    private TableView<UczniowieZajeciaDane> uczZajTab;
+    @FXML
+    private TableColumn uczZajImieCol;
+    @FXML
+    private TableColumn uczZajNazwCol;
+    @FXML
+    private TableColumn uczZajNrCol;
+    @FXML
+    private TableColumn uczZajNazwaCol;
+    @FXML
+    private TableColumn uczZajIDUCol;
+    @FXML
+    private TableColumn uczZajIDNCol;
+
+
+
+
+    @FXML
+    private void zaladujPrzypisaniaZajec(){
+        String sql ="SELECT u.imie, u.nazwisko, z.nazwa, z.nr_pokoju, u.id, z.id FROM uczen u INNER JOIN zajecia z INNER JOIN przypisanieZajec p ON u.id = p.uczen_id AND z.id = p.zajecia_id";
+        try{
+            Connection conn = dbConnection.getConnection();
+            this.uczzajdane = FXCollections.observableArrayList();
+
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            while(rs.next()) {
+               this.uczzajdane.add(new UczniowieZajeciaDane(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+            }
+            conn.close();
+            this.zwrotPrzypisanieDel.setText("");
+            this.zwrotPrzypisanie.setText("");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        this.uczZajImieCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("imie"));
+        this.uczZajNazwCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("nazwisko"));
+        this.uczZajNazwaCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("nazwa"));
+        this.uczZajNrCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("numer"));
+        this.uczZajIDUCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("idu"));
+        this.uczZajIDNCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("idn"));
+
+        this.uczZajTab.setItems(null);
+        this.uczZajTab.setItems(this.uczzajdane);
     }
 
 
@@ -849,6 +908,8 @@ public class AdminController implements Initializable  {
         }
 
     }
+
+
 
 
     @FXML
