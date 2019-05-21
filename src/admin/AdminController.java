@@ -864,8 +864,8 @@ public class AdminController implements Initializable  {
                this.uczzajdane.add(new UczniowieZajeciaDane(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
             }
             conn.close();
-            this.zwrotPrzypisanieDel.setText("");
-            this.zwrotPrzypisanie.setText("");
+            this.zwrotUZ.setText("");
+            this.zwrotUZDel.setText("");
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -873,7 +873,7 @@ public class AdminController implements Initializable  {
         this.uczZajImieCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("imie"));
         this.uczZajNazwCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("nazwisko"));
         this.uczZajNazwaCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("nazwa"));
-        this.uczZajNrCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("numer"));
+        this.uczZajNrCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("nr"));
         this.uczZajIDUCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("idu"));
         this.uczZajIDNCol.setCellValueFactory(new PropertyValueFactory<UczniowieZajeciaDane, String>("idn"));
 
@@ -881,6 +881,34 @@ public class AdminController implements Initializable  {
         this.uczZajTab.setItems(this.uczzajdane);
     }
 
+    @FXML
+    private Label zwrotUZ;
+    @FXML
+    private Label zwrotUZDel;
+
+    @FXML
+    private void dodajUZ(){
+        String sql = "INSERT INTO przypisanieZajec (uczen_id, zajecia_id) VALUES(?,?)";
+        uczniowie = uczenTable.getSelectionModel().getSelectedItems();
+        zajecia = zajTab.getSelectionModel().getSelectedItems();
+        String uid = uczniowie.get(0).getId();
+        String zid = zajecia.get(0).getId();
+        try{
+            Connection conn = dbConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uid);
+            stmt.setString(2, zid);
+
+            stmt.execute();
+            conn.close();
+
+            zaladujPrzypisaniaZajec();
+            this.zwrotUZ.setText("Przypisano zajęcia.");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+    }
 
 
     @FXML
