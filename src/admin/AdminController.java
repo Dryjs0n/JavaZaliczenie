@@ -20,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logowanie.LogowanieApp;
 
+import javax.jws.Oneway;
 import javax.swing.*;
 import javax.xml.soap.Text;
 import java.io.IOException;
@@ -107,6 +108,8 @@ public class AdminController implements Initializable  {
             zaladujZajecia();
             zaladujDaneNauczycieli();
             zaladujDaneUzytkownikow();
+            this.wybierzZajeciaPrzedmiot.setItems(FXCollections.observableArrayList(przedmioty));
+            this.wybierzZajeciaNr.setItems(FXCollections.observableArrayList(numery));
 
         }catch(Exception e){
             e.printStackTrace();
@@ -664,6 +667,8 @@ public class AdminController implements Initializable  {
 
         this.zajTab.setItems(null);
         this.zajTab.setItems(this.zajeciadane);
+        this.wybierzZajeciaNr.setPromptText("Numer pokoju");
+        this.wybierzZajeciaPrzedmiot.setPromptText("Przedmiot");
 
         this.zwrotZajDel.setText("");
 
@@ -712,6 +717,7 @@ public class AdminController implements Initializable  {
                     conn.close();
 //                System.out.println("usunieto ocene");
                     this.zwrotZajDel.setText("Usunięto zajęcia");
+                    zaladujZajecia();
 
 
                 } catch (Exception e) {
@@ -725,6 +731,45 @@ public class AdminController implements Initializable  {
         }else{this.zwrotZajDel.setText("Nie wybrano oceny");}
 
     }
+
+    @FXML
+    private ComboBox<String> wybierzZajeciaNr;
+    ObservableList<String> numery = FXCollections.observableArrayList("3","123","2323","4123","4","2","5","532","512","634","514");
+
+    @FXML
+    private ComboBox<String> wybierzZajeciaPrzedmiot;
+    ObservableList<String> przedmioty = FXCollections.observableArrayList("Matematyka","Fizyka","Polski","Angielski","Francuski");
+
+
+    @FXML
+    private void dodajZajecia(){
+        String sql = "INSERT INTO zajecia (nazwa, nr_pokoju, nauczyciel_id) VALUES(?,?,?)";
+        nauczyciele=  nauczTable.getSelectionModel().getSelectedItems();
+        String id = nauczyciele.get(0).getId();
+
+        if(this.wybierzZajeciaNr.getValue().isEmpty()||this.wybierzZajeciaPrzedmiot.getValue().isEmpty()){
+            this.zwrotZajecia.setText("Jedno lub więcej pól zostalo puste");
+        }else {
+            try {
+                Connection conn = dbConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1,this.wybierzZajeciaPrzedmiot.getValue());
+                stmt.setString(2,this.wybierzZajeciaNr.getValue());
+                stmt.setString(3,id);
+
+                stmt.execute();
+                conn.close();
+                zaladujZajecia();
+                zwrotZajecia.setText("Zajęcia zostały dodane.");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
 
 
 }

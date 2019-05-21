@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.AdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.AdminController">
    <children>
       <TabPane prefHeight="750.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -212,6 +213,32 @@
                         </HBox>
                         <VBox layoutY="-2.0" prefHeight="721.0" prefWidth="323.0">
                            <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="557.0" text="Dodaj zajęcia" underline="true">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="TOP_LEFT" prefHeight="61.0" prefWidth="323.0" text="Aby dodać zajęcia zaznacz wybranego nauczyciela w zakładce &quot;Nauczyciele&quot; oraz wybierz odpowiednie parametry z list rozwijanych" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ComboBox fx:id="wybierzZajeciaPrzedmiot" prefHeight="25.0" prefWidth="530.0" promptText="Przedmiot">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <ComboBox fx:id="wybierzZajeciaNr" prefHeight="25.0" prefWidth="433.0" promptText="Numer pokoju">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <Button mnemonicParsing="false" onAction="#dodajZajecia" prefHeight="25.0" prefWidth="642.0" text="Dodaj zajęcia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotZajecia" alignment="CENTER" prefHeight="17.0" prefWidth="786.0" />
                               <Button layoutX="30.0" layoutY="164.0" mnemonicParsing="false" onAction="#zaladujZajecia" prefHeight="12.0" prefWidth="283.0" text="Odśwież">
                                  <VBox.margin>
                                     <Insets left="20.0" right="20.0" top="200.0" />
@@ -223,12 +250,156 @@
                                  </VBox.margin>
                               </Button>
                               <Label fx:id="zwrotZajDel" alignment="CENTER" prefHeight="17.0" prefWidth="391.0" />
-                              <Label fx:id="zwrotZajecia" alignment="CENTER" prefHeight="279.0" prefWidth="323.0">
+                              <Label fx:id="zwrotZajecia" alignment="CENTER" prefHeight="41.0" prefWidth="323.0">
                                  <VBox.margin>
                                     <Insets top="20.0" />
                                  </VBox.margin>
                               </Label>
                               <Button fx:id="logoutucz2" mnemonicParsing="false" onAction="#wylogujUcz" text="Wyloguj się">
+                                 <VBox.margin>
+                                    <Insets left="122.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Przypisz Uczniów/Nauczycieli">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="321.0" layoutY="2.0" prefHeight="719.0" prefWidth="880.0">
+                           <children>
+                              <TableView fx:id="zajTab1" prefHeight="719.0" prefWidth="879.0">
+                                 <columns>
+                                    <TableColumn fx:id="zajnazwaCol1" prefWidth="183.0" text="Nazwa Zajęć" />
+                                    <TableColumn fx:id="zajnrCol1" prefWidth="215.0" text="Numer Pokoju" />
+                                    <TableColumn fx:id="zajimieCol1" prefWidth="232.0" text="Imię Nauczyciela" />
+                                    <TableColumn fx:id="zajnazwCol1" prefWidth="248.0" text="Nazwisko Nauczyciela" />
+                                    <TableColumn fx:id="zajIDCol1" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="ID" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <VBox layoutY="-2.0" prefHeight="721.0" prefWidth="323.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="557.0" text="Dodaj zajęcia" underline="true">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="TOP_LEFT" prefHeight="61.0" prefWidth="323.0" text="Aby dodać zajęcia zaznacz wybranego nauczyciela w zakładce &quot;Nauczyciele&quot; oraz wybierz odpowiednie parametry z list rozwijanych" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ComboBox fx:id="wybierzZajeciaPrzedmiot1" prefHeight="25.0" prefWidth="530.0" promptText="Przedmiot">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <ComboBox fx:id="wybierzZajeciaNr1" prefHeight="25.0" prefWidth="433.0" promptText="Numer pokoju">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <Button mnemonicParsing="false" onAction="#dodajZajecia" prefHeight="25.0" prefWidth="642.0" text="Dodaj zajęcia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotZajecia" alignment="CENTER" prefHeight="17.0" prefWidth="786.0" />
+                              <Button layoutX="30.0" layoutY="164.0" mnemonicParsing="false" onAction="#zaladujZajecia" prefHeight="12.0" prefWidth="283.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="200.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="usunZajecia1" layoutX="30.0" layoutY="210.0" mnemonicParsing="false" onAction="#usunZajecia" prefHeight="25.0" prefWidth="357.0" text="Usuń zajęcia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="70.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotZajDel1" alignment="CENTER" prefHeight="17.0" prefWidth="391.0" />
+                              <Label fx:id="zwrotZajecia1" alignment="CENTER" prefHeight="41.0" prefWidth="323.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="logoutucz21" mnemonicParsing="false" onAction="#wylogujUcz" text="Wyloguj się">
+                                 <VBox.margin>
+                                    <Insets left="122.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Przypisz Uczniów/Zajęcia">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="321.0" layoutY="2.0" prefHeight="719.0" prefWidth="880.0">
+                           <children>
+                              <TableView fx:id="zajTab11" prefHeight="719.0" prefWidth="879.0">
+                                 <columns>
+                                    <TableColumn fx:id="zajnazwaCol11" prefWidth="183.0" text="Nazwa Zajęć" />
+                                    <TableColumn fx:id="zajnrCol11" prefWidth="215.0" text="Numer Pokoju" />
+                                    <TableColumn fx:id="zajimieCol11" prefWidth="232.0" text="Imię Nauczyciela" />
+                                    <TableColumn fx:id="zajnazwCol11" prefWidth="248.0" text="Nazwisko Nauczyciela" />
+                                    <TableColumn fx:id="zajIDCol11" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" text="ID" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <VBox layoutY="-2.0" prefHeight="721.0" prefWidth="323.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="557.0" text="Dodaj zajęcia" underline="true">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label alignment="TOP_LEFT" prefHeight="61.0" prefWidth="323.0" text="Aby dodać zajęcia zaznacz wybranego nauczyciela w zakładce &quot;Nauczyciele&quot; oraz wybierz odpowiednie parametry z list rozwijanych" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ComboBox fx:id="wybierzZajeciaPrzedmiot11" prefHeight="25.0" prefWidth="530.0" promptText="Przedmiot">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <ComboBox fx:id="wybierzZajeciaNr11" prefHeight="25.0" prefWidth="433.0" promptText="Numer pokoju">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <Button mnemonicParsing="false" onAction="#dodajZajecia" prefHeight="25.0" prefWidth="642.0" text="Dodaj zajęcia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotZajecia1" alignment="CENTER" prefHeight="17.0" prefWidth="786.0" />
+                              <Button layoutX="30.0" layoutY="164.0" mnemonicParsing="false" onAction="#zaladujZajecia" prefHeight="12.0" prefWidth="283.0" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="200.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="usunZajecia11" layoutX="30.0" layoutY="210.0" mnemonicParsing="false" onAction="#usunZajecia" prefHeight="25.0" prefWidth="357.0" text="Usuń zajęcia">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="70.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="zwrotZajDel11" alignment="CENTER" prefHeight="17.0" prefWidth="391.0" />
+                              <Label fx:id="zwrotZajecia11" alignment="CENTER" prefHeight="41.0" prefWidth="323.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button fx:id="logoutucz211" mnemonicParsing="false" onAction="#wylogujUcz" text="Wyloguj się">
                                  <VBox.margin>
                                     <Insets left="122.0" />
                                  </VBox.margin>
