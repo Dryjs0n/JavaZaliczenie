@@ -834,6 +834,7 @@ public class AdminController implements Initializable  {
     ObservableList<UczniowieZajeciaDane> uczzajdane;
 
 
+
     @FXML
     private TableView<UczniowieZajeciaDane> uczZajTab;
     @FXML
@@ -911,6 +912,7 @@ public class AdminController implements Initializable  {
     }
 
 
+
     @FXML
     private void przypiszUN(){
         uczniowie = uczenTable.getSelectionModel().getSelectedItems();
@@ -958,6 +960,28 @@ public class AdminController implements Initializable  {
 
             zaladujPrzypisania();
             this.zwrotPrzypisanieDel.setText("Przypisanie usunięto pomyślnie.");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void usunUZ(){
+        uczzajdane = uczZajTab.getSelectionModel().getSelectedItems();
+        String uczen_id = uczzajdane.get(0).getIdu();
+        String zajecia_id = uczzajdane.get(0).getIdn();
+        String sql = "DELETE FROM przypisanieZajec WHERE uczen_id = ? AND zajecia_id = ?";
+        try{
+            Connection conn = dbConnection.getConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, uczen_id);
+            stmt.setString(2,zajecia_id);
+            stmt.execute();
+            conn.close();
+
+            zaladujPrzypisaniaZajec();
+            this.zwrotUZDel.setText("Przypisanie usunięto pomyślnie.");
         }catch (SQLException e){
             e.printStackTrace();
         }
