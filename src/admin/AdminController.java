@@ -248,6 +248,12 @@ public class AdminController implements Initializable  {
             zwrotNaucz.setText("Jedno lub więcej pól zostało puste. Proszę poprawić.");
         }
         else{
+            String pensjas = this.pensja.getText();
+            int pensja = Integer.parseInt(pensjas);
+            if(pensja<0){
+                zwrotNaucz.setText("Pensja nie może być mniejsza niż 0!");
+            }else{
+
             try {
                 Connection conn = dbConnection.getConnection();
                 PreparedStatement stmt1 = conn.prepareStatement(sql1);
@@ -278,6 +284,8 @@ public class AdminController implements Initializable  {
                 this.loginn.setText("");
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+
             }
         }
     }
