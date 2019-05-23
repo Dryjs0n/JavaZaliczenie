@@ -1,7 +1,7 @@
 package admin;
 
 
-import dbUtil.dbConnection;
+import polaczenie.Polaczenie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import logowanie.LogowanieApp;
+import logowanie.Logowanie;
 
 import java.net.URL;
 import java.sql.*;
@@ -80,7 +80,7 @@ public class AdminController implements Initializable  {
 
 
 
-    private dbConnection dc;
+    private Polaczenie dc;
     private ObservableList<UczenDane> dane;
     private ObservableList<NauczycielDane> nauczdane;
     private ObservableList<LogowanieDane> logdane;
@@ -90,7 +90,7 @@ public class AdminController implements Initializable  {
     private String sqll = "SELECT * FROM logowanie";
 
     public void initialize(URL url, ResourceBundle rb){
-        this.dc = new dbConnection();
+        this.dc = new Polaczenie();
         try{
             zaladujDaneUczniow();
             zaladujZajecia();
@@ -115,7 +115,7 @@ public class AdminController implements Initializable  {
     @FXML
     private void zaladujDaneNauczycieli() throws SQLException{
         try{
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             this.nauczdane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sqln);
@@ -149,7 +149,7 @@ public class AdminController implements Initializable  {
     @FXML
     private void zaladujDaneUczniow() throws SQLException{
         try{
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             this.dane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sql);
@@ -189,7 +189,7 @@ public class AdminController implements Initializable  {
             zwrotUczen.setText("Jedno lub więcej pól zostało puste. Proszę poprawić.");
         }else{
             try {
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             PreparedStatement stmt1 = conn.prepareStatement(sql1);
             PreparedStatement stmt2 = conn.prepareStatement(sql2);
 
@@ -244,7 +244,7 @@ public class AdminController implements Initializable  {
             }else {
 
             try {
-                Connection conn = dbConnection.getConnection();
+                Connection conn = Polaczenie.getConnection();
                 PreparedStatement stmt1 = conn.prepareStatement(sql1);
                 PreparedStatement stmt2 = conn.prepareStatement(sql2);
 
@@ -293,7 +293,7 @@ public class AdminController implements Initializable  {
             zwrotLogowanie.setText("Nie wybrano rekordu lub hasło jest puste!");
         }else{try {
             String login = uzytkownicy.get(0).getLogin();
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(2, login);
@@ -353,7 +353,7 @@ public class AdminController implements Initializable  {
                 int u_id;
 
                 try {
-                    Connection conn = dbConnection.getConnection();
+                    Connection conn = Polaczenie.getConnection();
 //                ResultSet resultq = stmtq.executeQuery("SELECT * FROM uczen WHERE login=?");
 
 
@@ -415,7 +415,7 @@ public class AdminController implements Initializable  {
 ////            String sql3 = "DELETE FROM uczenNauczyciel WHERE uczen_id=?";
 ////            int uczen_id;
 //            try {
-//                Connection conn = dbConnection.getConnection();
+//                Connection conn = Polaczenie.getConnection();
 ////                Statement stmtq;
 ////                stmtq = conn.createStatement();
 ////                ResultSet resultq = stmtq.executeQuery("SELECT id FROM uczen WHERE login="+this.loginDel);
@@ -496,7 +496,7 @@ public class AdminController implements Initializable  {
                 String sql4 = "DELETE FROM uczenNauczyciel WHERE nauczyciel_id=?";
 
                 try {
-                    Connection conn = dbConnection.getConnection();
+                    Connection conn = Polaczenie.getConnection();
 
                     Statement stmtq = conn.createStatement();
 //                ResultSet resultq = stmtq.executeQuery("SELECT * FROM uczen WHERE login=?");
@@ -559,7 +559,7 @@ public class AdminController implements Initializable  {
     @FXML
     private void zaladujDaneUzytkownikow() throws SQLException{
         try{
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             this.logdane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sqll);
@@ -613,7 +613,7 @@ public class AdminController implements Initializable  {
             try {
                 Stage loginStage = (Stage) this.logoutucz.getScene().getWindow();
                 loginStage.close();
-                LogowanieApp.window.show();
+                Logowanie.window.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -648,7 +648,7 @@ public class AdminController implements Initializable  {
         String sqlz = "SELECT z.nazwa, z.nr_pokoju, n.imie, n.nazwisko, z.id FROM zajecia z INNER JOIN nauczyciel n ON z.nauczyciel_id = n.id";
 //        String sqlz = "SELECT * FROM zajecia";
         try{
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             this.zajeciadane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sqlz);
@@ -714,7 +714,7 @@ public class AdminController implements Initializable  {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == bt1) {
                     try {
-                        Connection conn = dbConnection.getConnection();
+                        Connection conn = Polaczenie.getConnection();
                         PreparedStatement resultq = conn.prepareStatement(sql);
                         PreparedStatement resultq2 = conn.prepareStatement(sql2);
                         resultq.setString(1, id);
@@ -765,7 +765,7 @@ public class AdminController implements Initializable  {
             } else {
                 String id = nauczyciele.get(0).getId();
                 try {
-                    Connection conn = dbConnection.getConnection();
+                    Connection conn = Polaczenie.getConnection();
                     PreparedStatement stmt = conn.prepareStatement(sql);
                     stmt.setString(1, this.wybierzZajeciaPrzedmiot.getValue());
                     stmt.setString(2, this.wybierzZajeciaNr.getValue());
@@ -810,7 +810,7 @@ public class AdminController implements Initializable  {
     private void zaladujPrzypisania(){
         String sql ="SELECT u.imie AS uimie,u.nazwisko AS unazw,n.imie AS nimie, n.nazwisko AS nnazw,u.id AS uid, n.id AS nid FROM uczen u INNER JOIN nauczyciel n INNER JOIN uczenNauczyciel un ON u.id = uczen_id AND n.id = nauczyciel_id";
         try{
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             this.uczenNauczDane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sql);
@@ -869,7 +869,7 @@ public class AdminController implements Initializable  {
     private void zaladujPrzypisaniaZajec(){
         String sql ="SELECT u.imie, u.nazwisko, z.nazwa, z.nr_pokoju, u.id, z.id FROM uczen u INNER JOIN zajecia z INNER JOIN przypisanieZajec p ON u.id = p.uczen_id AND z.id = p.zajecia_id";
         try{
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             this.uczzajdane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sql);
@@ -910,7 +910,7 @@ public class AdminController implements Initializable  {
             String uid = uczniowie.get(0).getId();
             String zid = zajecia.get(0).getId();
             try {
-                Connection conn = dbConnection.getConnection();
+                Connection conn = Polaczenie.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, uid);
                 stmt.setString(2, zid);
@@ -940,7 +940,7 @@ public class AdminController implements Initializable  {
             String nid = nauczyciele.get(0).getId();
             String sql = "INSERT INTO uczenNauczyciel (uczen_id, nauczyciel_id) VALUES(?,?)";
             try {
-                Connection conn = dbConnection.getConnection();
+                Connection conn = Polaczenie.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, uid);
                 stmt.setString(2, nid);
@@ -972,7 +972,7 @@ public class AdminController implements Initializable  {
             String nauczyciel_id = uczenNauczDane.get(0).getNid();
             String sql = "DELETE FROM uczenNauczyciel WHERE uczen_id = ? AND nauczyciel_id = ?";
             try {
-                Connection conn = dbConnection.getConnection();
+                Connection conn = Polaczenie.getConnection();
 
                 PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -998,7 +998,7 @@ public class AdminController implements Initializable  {
         String zajecia_id = uczzajdane.get(0).getIdn();
         String sql = "DELETE FROM przypisanieZajec WHERE uczen_id = ? AND zajecia_id = ?";
         try{
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
 
             PreparedStatement stmt = conn.prepareStatement(sql);
 

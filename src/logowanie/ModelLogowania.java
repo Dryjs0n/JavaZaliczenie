@@ -5,14 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dbUtil.dbConnection;
+import polaczenie.Polaczenie;
 
 public class ModelLogowania {
     Connection connection;
 
     public ModelLogowania(){
         try{
-            this.connection = dbConnection.getConnection();
+            this.connection = Polaczenie.getConnection();
         }
         catch (SQLException e){
             e.printStackTrace();

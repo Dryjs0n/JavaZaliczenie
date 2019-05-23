@@ -1,7 +1,7 @@
 package uczen;
 
 import admin.UczenDane;
-import dbUtil.dbConnection;
+import polaczenie.Polaczenie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import logowanie.LogowanieApp;
+import logowanie.Logowanie;
 import logowanie.LogowanieController;
 
 
@@ -25,7 +25,7 @@ public class UczenController implements Initializable {
     @FXML
     private Label witaj;
 
-    private dbConnection dc;
+    private Polaczenie dc;
 
     public static String login_w;
     private String imie_w;
@@ -34,7 +34,7 @@ public class UczenController implements Initializable {
     private Label witaj1;
 
     public void initialize(URL url, ResourceBundle rb){
-        this.dc = new dbConnection();
+        this.dc = new Polaczenie();
         przypiszImie();
         this.witaj.setText(imie_w);
         this.witaj1.setText(imie_w);
@@ -48,7 +48,7 @@ public class UczenController implements Initializable {
 
     public void przypiszImie(){
        try {
-           Connection conn = dbConnection.getConnection();
+           Connection conn = Polaczenie.getConnection();
            PreparedStatement result = conn.prepareStatement("SELECT imie FROM uczen WHERE logowanie_login=?");
            result.setString(1,login_w);
            ResultSet rs = result.executeQuery();
@@ -68,7 +68,7 @@ public class UczenController implements Initializable {
     private void pokazHaslo(){
         try{
             String hasloUkryte;
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             PreparedStatement result = conn.prepareStatement("SELECT haslo FROM logowanie WHERE login=?");
             result.setString(1,login_w);
             ResultSet rs = result.executeQuery();
@@ -111,7 +111,7 @@ public class UczenController implements Initializable {
             try {
                 Stage loginStage = (Stage) this.wyloguj.getScene().getWindow();
                 loginStage.close();
-                LogowanieApp.window.show();
+                Logowanie.window.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -137,7 +137,7 @@ public class UczenController implements Initializable {
             haslozostalo.setText("Hasło nie może być puste!");
         }else{
             try {
-                Connection conn = dbConnection.getConnection();
+                Connection conn = Polaczenie.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
 
                 stmt.setString(1, this.labelzmiana.getText());
@@ -181,7 +181,7 @@ public class UczenController implements Initializable {
         String sqlq = "SELECT id  FROM uczen WHERE logowanie_login=?";
         try {
             String sql = "SELECT * FROM ocena WHERE uczen_id=?";
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
 
             PreparedStatement result = conn.prepareStatement(sqlq);
             result.setString(1, login_w);

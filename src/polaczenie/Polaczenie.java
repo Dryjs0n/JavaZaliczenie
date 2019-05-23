@@ -1,8 +1,8 @@
-package dbUtil;
+package polaczenie;
 
 import java.sql.*;
 
-public class dbConnection {
+public class Polaczenie {
 
     private static final String SQCONN = "jdbc:sqlite:src/szkola.sqlite";
 

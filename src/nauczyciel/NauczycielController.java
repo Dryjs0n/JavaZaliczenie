@@ -1,6 +1,6 @@
 package nauczyciel;
 
-import dbUtil.dbConnection;
+import polaczenie.Polaczenie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import logowanie.LogowanieApp;
+import logowanie.Logowanie;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class NauczycielController implements Initializable {
-    private dbConnection dc;
+    private Polaczenie dc;
 
     @FXML
     private Label dziendobry;
@@ -31,7 +31,7 @@ public class NauczycielController implements Initializable {
 
 
     public void initialize(URL url, ResourceBundle rb){
-        this.dc = new dbConnection();
+        this.dc = new Polaczenie();
         przypiszImie();
         dziendobry.setText(imie_w);
         dziendobry1.setText(imie_w);
@@ -53,7 +53,7 @@ public class NauczycielController implements Initializable {
 
     public void przypiszImie(){
         try {
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             PreparedStatement result = conn.prepareStatement("SELECT imie FROM nauczyciel WHERE logowanie_login=?");
             result.setString(1,login_w);
             ResultSet rs = result.executeQuery();
@@ -91,7 +91,7 @@ public class NauczycielController implements Initializable {
     private void zaladujUczniow(){
         try{
             String sql = "SELECT imie, nazwisko, logowanie_login, id FROM uczen";
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             this.uczniowieDane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sql);
@@ -138,7 +138,7 @@ public class NauczycielController implements Initializable {
             try {
                 Stage loginStage = (Stage) this.wylogujButton.getScene().getWindow();
                 loginStage.close();
-                LogowanieApp.window.show();
+                Logowanie.window.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -154,7 +154,7 @@ public class NauczycielController implements Initializable {
     private void pokazHaslo(){
         try{
             String hasloUkryte;
-            Connection conn = dbConnection.getConnection();
+            Connection conn = Polaczenie.getConnection();
             PreparedStatement result = conn.prepareStatement("SELECT haslo FROM logowanie WHERE login=?");
             result.setString(1,login_w);
             ResultSet rs = result.executeQuery();
@@ -192,7 +192,7 @@ public class NauczycielController implements Initializable {
             haslozostalo.setText("Hasło nie może być puste!");
         }else{
             try {
-                Connection conn = dbConnection.getConnection();
+                Connection conn = Polaczenie.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
 
                 stmt.setString(1, this.labelzmiana.getText());
@@ -229,7 +229,7 @@ public class NauczycielController implements Initializable {
     private void zaladujOceny(){
         String sql = "SELECT u.imie, u.nazwisko, o.przedmiot, o.wartosc,o.id FROM uczen u INNER JOIN ocena o ON u.id=o.uczen_id";
         try{
-            Connection conn = new dbConnection().getConnection();
+            Connection conn = new Polaczenie().getConnection();
             this.ocenyDane = FXCollections.observableArrayList();
 
             ResultSet rs = conn.createStatement().executeQuery(sql);
@@ -291,7 +291,7 @@ public class NauczycielController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == bt1) {
                 try {
-                    Connection conn = dbConnection.getConnection();
+                    Connection conn = Polaczenie.getConnection();
                     PreparedStatement resultq = conn.prepareStatement(sql);
                     resultq.setString(1, id);
 
@@ -339,7 +339,7 @@ public class NauczycielController implements Initializable {
         } else {
             String id = uczniowie.get(0).getId();
             try {
-                Connection conn = dbConnection.getConnection();
+                Connection conn = Polaczenie.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
 //                PreparedStatement stmtu = conn.prepareStatement(sqlu);
 

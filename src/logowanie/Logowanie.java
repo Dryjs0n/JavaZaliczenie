@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.util.Optional;
 
 
-public class LogowanieApp extends Application {
+public class Logowanie extends Application {
 
 
     public static Stage window = new Stage();
