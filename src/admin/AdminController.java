@@ -285,13 +285,14 @@ public class AdminController implements Initializable  {
     private void dodajUzytkownika(){
         uzytkownicy = logowanieTab.getSelectionModel().getSelectedItems();
 
-        String login = uzytkownicy.get(0).getLogin();
+
 
 
         String sql = "UPDATE logowanie SET haslo=? WHERE login=?";
-        if( this.haslo.getText().isEmpty()) {
-            zwrotLogowanie.setText("Pole login lub hasło nie może być puste!");
+        if( this.haslo.getText().isEmpty()||uzytkownicy.isEmpty()) {
+            zwrotLogowanie.setText("Nie wybrano rekordu lub hasło jest puste!");
         }else{try {
+            String login = uzytkownicy.get(0).getLogin();
             Connection conn = dbConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -675,6 +676,7 @@ public class AdminController implements Initializable  {
         this.wybierzZajeciaNr.setPromptText("Numer pokoju");
         this.wybierzZajeciaPrzedmiot.setPromptText("Przedmiot");
 
+        this.zwrotZajecia.setText("");
         this.zwrotZajDel.setText("");
 
 
@@ -695,46 +697,52 @@ public class AdminController implements Initializable  {
         String sql2 = "DELETE FROM przypisanieZajec WHERE zajecia_id=?";
 
         zajecia = zajTab.getSelectionModel().getSelectedItems();
+        if(zajecia.isEmpty()==false) {
 //
-        id = zajecia.get(0).getId();
+            id = zajecia.get(0).getId();
 //        System.out.println(id);
-        if(id.isEmpty()==false) {
+            if (id.isEmpty() == false) {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Potwierdzenie");
-            alert.setHeaderText("Czy na pewno chcesz usunąć zajęcia?");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Potwierdzenie");
+                alert.setHeaderText("Czy na pewno chcesz usunąć zajęcia?");
 
-            ButtonType bt1 = new ButtonType("Tak");
-            ButtonType bt2 = new ButtonType("Nie");
+                ButtonType bt1 = new ButtonType("Tak");
+                ButtonType bt2 = new ButtonType("Nie");
 
-            alert.getButtonTypes().setAll(bt1, bt2);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == bt1) {
-                try {
-                    Connection conn = dbConnection.getConnection();
-                    PreparedStatement resultq = conn.prepareStatement(sql);
-                    PreparedStatement resultq2 = conn.prepareStatement(sql2);
-                    resultq.setString(1, id);
-                    resultq2.setString(1, id);
+                alert.getButtonTypes().setAll(bt1, bt2);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == bt1) {
+                    try {
+                        Connection conn = dbConnection.getConnection();
+                        PreparedStatement resultq = conn.prepareStatement(sql);
+                        PreparedStatement resultq2 = conn.prepareStatement(sql2);
+                        resultq.setString(1, id);
+                        resultq2.setString(1, id);
 
-                    resultq.execute();
-                    resultq2.execute();
-                    conn.close();
+                        resultq.execute();
+                        resultq2.execute();
+                        conn.close();
 //                System.out.println("usunieto ocene");
-                    this.zwrotZajDel.setText("Usunięto zajęcia");
-                    zaladujZajecia();
+                        zaladujZajecia();
+
+                        this.zwrotZajDel.setText("Usunięto zajęcia");
 
 
-                } catch (Exception e) {
+                    } catch (Exception e) {
 
-                    e.printStackTrace();
+                        e.printStackTrace();
+                    }
+
+
+                } else {
                 }
-
-
             } else {
+                this.zwrotZajDel.setText("Nie wybrano oceny");
             }
-        }else{this.zwrotZajDel.setText("Nie wybrano oceny");}
-
+        }else{
+            this.zwrotZajDel.setText("Nie wybrano rekordu.");
+        }
     }
 
     @FXML
@@ -750,27 +758,29 @@ public class AdminController implements Initializable  {
     private void dodajZajecia(){
         String sql = "INSERT INTO zajecia (nazwa, nr_pokoju, nauczyciel_id) VALUES(?,?,?)";
         nauczyciele=  nauczTable.getSelectionModel().getSelectedItems();
-        String id = nauczyciele.get(0).getId();
 
-        if(this.wybierzZajeciaNr.getValue().isEmpty()||this.wybierzZajeciaPrzedmiot.getValue().isEmpty()){
-            this.zwrotZajecia.setText("Jedno lub więcej pól zostalo puste");
-        }else {
-            try {
-                Connection conn = dbConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1,this.wybierzZajeciaPrzedmiot.getValue());
-                stmt.setString(2,this.wybierzZajeciaNr.getValue());
-                stmt.setString(3,id);
 
-                stmt.execute();
-                conn.close();
-                zaladujZajecia();
-                zwrotZajecia.setText("Zajęcia zostały dodane.");
+            if (nauczyciele.isEmpty()||this.wybierzZajeciaNr.getValue().isEmpty() || this.wybierzZajeciaPrzedmiot.getValue().isEmpty()) {
+                this.zwrotZajecia.setText("Jedno lub więcej pól zostalo puste lub nie wybrano rekordu w tabeli \"Nauczyciele\"");
+            } else {
+                String id = nauczyciele.get(0).getId();
+                try {
+                    Connection conn = dbConnection.getConnection();
+                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    stmt.setString(1, this.wybierzZajeciaPrzedmiot.getValue());
+                    stmt.setString(2, this.wybierzZajeciaNr.getValue());
+                    stmt.setString(3, id);
 
-            } catch (SQLException e) {
-                e.printStackTrace();
+                    stmt.execute();
+                    conn.close();
+                    zaladujZajecia();
+                    zwrotZajecia.setText("Zajęcia zostały dodane.");
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+
 
     }
 
@@ -894,21 +904,25 @@ public class AdminController implements Initializable  {
         String sql = "INSERT INTO przypisanieZajec (uczen_id, zajecia_id) VALUES(?,?)";
         uczniowie = uczenTable.getSelectionModel().getSelectedItems();
         zajecia = zajTab.getSelectionModel().getSelectedItems();
-        String uid = uczniowie.get(0).getId();
-        String zid = zajecia.get(0).getId();
-        try{
-            Connection conn = dbConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, uid);
-            stmt.setString(2, zid);
+        if(uczniowie.isEmpty()||zajecia.isEmpty()){
+            this.zwrotUZ.setText("Nie wybrano odpowiednich rekordów.");
+        }else {
+            String uid = uczniowie.get(0).getId();
+            String zid = zajecia.get(0).getId();
+            try {
+                Connection conn = dbConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, uid);
+                stmt.setString(2, zid);
 
-            stmt.execute();
-            conn.close();
+                stmt.execute();
+                conn.close();
 
-            zaladujPrzypisaniaZajec();
-            this.zwrotUZ.setText("Przypisano zajęcia.");
-        }catch(SQLException e){
-            e.printStackTrace();
+                zaladujPrzypisaniaZajec();
+                this.zwrotUZ.setText("Przypisano zajęcia.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -919,24 +933,28 @@ public class AdminController implements Initializable  {
     private void przypiszUN(){
         uczniowie = uczenTable.getSelectionModel().getSelectedItems();
         nauczyciele = nauczTable.getSelectionModel().getSelectedItems();
-        String uid = uczniowie.get(0).getId();
-        String nid = nauczyciele.get(0).getId();
-        String sql = "INSERT INTO uczenNauczyciel (uczen_id, nauczyciel_id) VALUES(?,?)";
-        try{
-            Connection conn = dbConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, uid);
-            stmt.setString(2, nid);
+        if(nauczyciele.isEmpty()||uczniowie.isEmpty()){
+            this.zwrotPrzypisanie.setText("Nie wybrano odpowiednich rekordów.");
+        }else {
+            String uid = uczniowie.get(0).getId();
+            String nid = nauczyciele.get(0).getId();
+            String sql = "INSERT INTO uczenNauczyciel (uczen_id, nauczyciel_id) VALUES(?,?)";
+            try {
+                Connection conn = dbConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, uid);
+                stmt.setString(2, nid);
 
-            stmt.execute();
-            conn.close();
+                stmt.execute();
+                conn.close();
 
-            zaladujPrzypisania();
-            this.zwrotPrzypisanie.setText("Pomyślnie dodano przypisanie.");
+                zaladujPrzypisania();
+                this.zwrotPrzypisanie.setText("Pomyślnie dodano przypisanie.");
 
 
-        }catch(SQLException e){
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -947,28 +965,35 @@ public class AdminController implements Initializable  {
     @FXML
     private void usunPrzypisanieUN(){
         uczenNauczDane = uczenNauczTab.getSelectionModel().getSelectedItems();
-        String uczen_id = uczenNauczDane.get(0).getUid();
-        String nauczyciel_id = uczenNauczDane.get(0).getNid();
-        String sql = "DELETE FROM uczenNauczyciel WHERE uczen_id = ? AND nauczyciel_id = ?";
-        try{
-            Connection conn = dbConnection.getConnection();
+        if(uczenNauczDane.isEmpty()){
+            this.zwrotPrzypisanieDel.setText("Nie wybrano rekordu");
+        }else {
+            String uczen_id = uczenNauczDane.get(0).getUid();
+            String nauczyciel_id = uczenNauczDane.get(0).getNid();
+            String sql = "DELETE FROM uczenNauczyciel WHERE uczen_id = ? AND nauczyciel_id = ?";
+            try {
+                Connection conn = dbConnection.getConnection();
 
-            PreparedStatement stmt = conn.prepareStatement(sql);
+                PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, uczen_id);
-            stmt.setString(2,nauczyciel_id);
-            stmt.execute();
-            conn.close();
+                stmt.setString(1, uczen_id);
+                stmt.setString(2, nauczyciel_id);
+                stmt.execute();
+                conn.close();
 
-            zaladujPrzypisania();
-            this.zwrotPrzypisanieDel.setText("Przypisanie usunięto pomyślnie.");
-        }catch (SQLException e){
-            e.printStackTrace();
+                zaladujPrzypisania();
+                this.zwrotPrzypisanieDel.setText("Przypisanie usunięto pomyślnie.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     @FXML
     private void usunUZ(){
         uczzajdane = uczZajTab.getSelectionModel().getSelectedItems();
+        if(uczzajdane.isEmpty()){
+            zwrotUZDel.setText("Nie wybrano rekordu.");
+        }else{
         String uczen_id = uczzajdane.get(0).getIdu();
         String zajecia_id = uczzajdane.get(0).getIdn();
         String sql = "DELETE FROM przypisanieZajec WHERE uczen_id = ? AND zajecia_id = ?";
@@ -986,6 +1011,8 @@ public class AdminController implements Initializable  {
             this.zwrotUZDel.setText("Przypisanie usunięto pomyślnie.");
         }catch (SQLException e){
             e.printStackTrace();
+        }
+
         }
     }
 

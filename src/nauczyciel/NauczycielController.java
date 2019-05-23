@@ -253,7 +253,10 @@ public class NauczycielController implements Initializable {
         this.ocenyWartoscCol.setResizable(false);
         this.ocenyIDCol.setResizable(false);
 
+        this.wyborWartosci.setValue(null);
+        this.wyborPrzedmiot.setValue(null);
 
+        this.ocenaDodana.setText("");
         this.zwrotOceny.setText("");
     }
 
@@ -269,10 +272,12 @@ public class NauczycielController implements Initializable {
         String sql = "DELETE FROM ocena WHERE id=?";
 
         oceny = ocenyTab.getSelectionModel().getSelectedItems();
-//
-        id = oceny.get(0).getId();
+        if(oceny.isEmpty()){
+            this.zwrotOceny.setText("Nie wybrano oceny.");
+        }else {
+            id = oceny.get(0).getId();
 //        System.out.println(id);
-        if(id.isEmpty()==false) {
+
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Potwierdzenie");
@@ -303,7 +308,7 @@ public class NauczycielController implements Initializable {
 
             } else {
             }
-        }else{this.zwrotOceny.setText("Nie wybrano oceny");}
+        }
     }
 
     @FXML
@@ -323,14 +328,15 @@ public class NauczycielController implements Initializable {
     private void dodajOcene() {
         uczniowie = uczniowieTab.getSelectionModel().getSelectedItems();
 
-        String id = uczniowie.get(0).getId();
+
         String login;
         String sql = "INSERT INTO ocena (przedmiot, wartosc, uczen_id) VALUES(?,?,?)";
         String uczen_id;
 //        String sqlu = "SELECT login FROM uczen WHERE id=?";
-        if (this.wyborWartosci.getValue().isEmpty()||this.wyborPrzedmiot.getValue().isEmpty()) {
-            ocenaDodana.setText("Jedno lub więcej pól pozostało puste. Proszę poprawić.");
+        if (uczniowie.isEmpty()||this.wyborWartosci.getValue()==null||this.wyborPrzedmiot.getValue()==null) {
+            ocenaDodana.setText("Jedno lub więcej pól pozostało puste lub nie wybrano ucznia. Proszę poprawić.");
         } else {
+            String id = uczniowie.get(0).getId();
             try {
                 Connection conn = dbConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
@@ -343,15 +349,15 @@ public class NauczycielController implements Initializable {
                     try {
 //                        System.out.println("przeszło");
 
-                        stmt.setString(1, this.wyborPrzedmiot.getValue().toString());
-                        stmt.setString(2, this.wyborWartosci.getValue().toString());
+                        stmt.setString(1, this.wyborPrzedmiot.getValue());
+                        stmt.setString(2, this.wyborWartosci.getValue());
                         stmt.setString(3, id);
 
                         stmt.execute();
                         conn.close();
-
-                        ocenaDodana.setText("Ocena została dodana.");
                         zaladujOceny();
+                        ocenaDodana.setText("Ocena została dodana.");
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -362,6 +368,7 @@ public class NauczycielController implements Initializable {
 
             }
 //            ocenaDodana.setText("");
+
 
         }
     }
