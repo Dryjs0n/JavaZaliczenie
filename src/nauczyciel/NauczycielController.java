@@ -144,6 +144,7 @@ public class NauczycielController implements Initializable {
             }
         } else {
         }
+
     }
 
     @FXML
