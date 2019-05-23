@@ -1,7 +1,6 @@
 package admin;
 
 
-import logowanie.LogowanieApp;
 import dbUtil.dbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import logowanie.LogowanieApp;
 
 import java.net.URL;
 import java.sql.*;
