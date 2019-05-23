@@ -13,8 +13,10 @@ import java.util.Optional;
 
 public class LogowanieApp extends Application {
 
+
     public static Stage window = new Stage();
 
+    @Override
     public void start(Stage stage)throws Exception{
         window=stage;
         Parent root = (Parent) FXMLLoader.load(getClass().getResource("logowanie.fxml"));
@@ -25,12 +27,17 @@ public class LogowanieApp extends Application {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Logowanie");
+        stage.setTitle("Panel Logowania");
         stage.setResizable(false);
         stage.show();
 
 
     }
+
+    public static void main(String[]args){
+        launch(args);
+    }
+
 
     private void closeProgram(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -51,8 +58,7 @@ public class LogowanieApp extends Application {
     }
 
 
-    public static void main(String[]args){
-        launch(args);
-    }
+
+
 
 }

@@ -1,30 +1,17 @@
 package admin;
 
 
-import com.sun.javaws.jnl.JavaFXAppDesc;
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
-import javafx.application.Application;
-import javafx.application.Platform;
 import logowanie.LogowanieApp;
 import dbUtil.dbConnection;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import logowanie.LogowanieApp;
 
-import javax.jws.Oneway;
-import javax.swing.*;
-import javax.xml.soap.Text;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.Optional;
@@ -248,11 +235,13 @@ public class AdminController implements Initializable  {
             zwrotNaucz.setText("Jedno lub więcej pól zostało puste. Proszę poprawić.");
         }
         else{
-            String pensjas = this.pensja.getText();
-            int pensja = Integer.parseInt(pensjas);
+            if(this.pensja.getText().isEmpty()==false) {
+                String pensjas = this.pensja.getText();
+                int pensja = Integer.parseInt(pensjas);
+
             if(pensja<0){
-                zwrotNaucz.setText("Pensja nie może być mniejsza niż 0!");
-            }else{
+                zwrotNaucz.setText("Pensja nie może być mniejsza niż 0!");}
+            }else {
 
             try {
                 Connection conn = dbConnection.getConnection();
@@ -338,9 +327,11 @@ public class AdminController implements Initializable  {
         String login = "";
         uczniowie = uczenTable.getSelectionModel().getSelectedItems();
 
-        id = uczniowie.get(0).getId();
-        login = uczniowie.get(0).getLogin();
+        if(uczniowie.isEmpty()==false) {
 
+
+            id = uczniowie.get(0).getId();
+            login = uczniowie.get(0).getLogin();
 
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -365,35 +356,31 @@ public class AdminController implements Initializable  {
 //                ResultSet resultq = stmtq.executeQuery("SELECT * FROM uczen WHERE login=?");
 
 
+                    PreparedStatement stmt1 = conn.prepareStatement(sql1);
+                    PreparedStatement stmt2 = conn.prepareStatement(sql2);
+                    PreparedStatement stmt3 = conn.prepareStatement(sql3);
+                    PreparedStatement stmt4 = conn.prepareStatement(sql4);
+                    PreparedStatement stmt5 = conn.prepareStatement(sql5);
+
+                    stmt1.setString(1, id);
+                    stmt2.setString(1, login);
+                    stmt3.setString(1, id);
+                    stmt4.setString(1, id);
+                    stmt5.setString(1, id);
 
 
+                    stmt1.execute();
+                    stmt2.execute();
+                    stmt3.execute();
+                    stmt4.execute();
+                    stmt5.execute();
 
-
-                        PreparedStatement stmt1 = conn.prepareStatement(sql1);
-                        PreparedStatement stmt2 = conn.prepareStatement(sql2);
-                        PreparedStatement stmt3 = conn.prepareStatement(sql3);
-                        PreparedStatement stmt4 = conn.prepareStatement(sql4);
-                        PreparedStatement stmt5 = conn.prepareStatement(sql5);
-
-                        stmt1.setString(1, id);
-                        stmt2.setString(1, login);
-                        stmt3.setString(1, id);
-                        stmt4.setString(1, id);
-                        stmt5.setString(1, id);
-
-
-                        stmt1.execute();
-                        stmt2.execute();
-                        stmt3.execute();
-                        stmt4.execute();
-                        stmt5.execute();
-
-                        conn.close();
+                    conn.close();
 
 //                        this.uczenDel.setText("");
-                        zaladujDaneUczniow();
+                    zaladujDaneUczniow();
 
-                        zwrotUczenDel.setText("Pomyślnie usunięto ucznia");
+                    zwrotUczenDel.setText("Pomyślnie usunięto ucznia");
 
 
                 } catch (SQLException e) {
@@ -402,6 +389,9 @@ public class AdminController implements Initializable  {
 
             } else {
             }
+        }else{
+            this.zwrotUczenDel.setText("Nie wybrano wiersza.");
+        }
 
     }
 
@@ -483,6 +473,7 @@ public class AdminController implements Initializable  {
         String login;
 
         nauczyciele=nauczTable.getSelectionModel().getSelectedItems();
+        if(nauczyciele.isEmpty()==false){
         id = nauczyciele.get(0).getId();
         login = nauczyciele.get(0).getLogin();
 
@@ -538,6 +529,9 @@ public class AdminController implements Initializable  {
                     e.printStackTrace();
                 }
 
+        }
+        }else{
+            zwrotNauczDel.setText("Nie wybrano wiersza.");
         }
     }
 

@@ -1,19 +1,15 @@
 package nauczyciel;
 
-import com.sun.javaws.jnl.JavaFXAppDesc;
 import dbUtil.dbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logowanie.LogowanieApp;
 
-import javax.print.DocFlavor;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
