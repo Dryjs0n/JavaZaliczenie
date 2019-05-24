@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-
 import java.util.Optional;
 
 
@@ -34,9 +33,7 @@ public class Logowanie extends Application {
 
     }
 
-    public static void main(String[]args){
-        launch(args);
-    }
+
 
 
     private void closeProgram(){
@@ -57,7 +54,9 @@ public class Logowanie extends Application {
 
     }
 
-
+    public static void main(String[]args){
+        launch(args);
+    }
 
 
 
