@@ -13,12 +13,12 @@ import java.util.Optional;
 public class Logowanie extends Application {
 
 
-    public static Stage window = new Stage();
+
 
     @Override
     public void start(Stage stage)throws Exception{
         window=stage;
-        Parent root = (Parent) FXMLLoader.load(getClass().getResource("logowanie.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("logowanie.fxml"));
 
         stage.setOnCloseRequest(e ->{e.consume();
             closeProgram();
@@ -53,8 +53,9 @@ public class Logowanie extends Application {
         }
 
     }
-
+    public static Stage window = new Stage();
     public static void main(String[]args){
+
         launch(args);
     }
 
