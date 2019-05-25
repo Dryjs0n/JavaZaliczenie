@@ -1,21 +1,23 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="JavaZaliczenie">
+  <artifact type="javafx" build-on-make="true" name="JavaZaliczenie">
     <output-path>$PROJECT_DIR$/out/artifacts/JavaZaliczenie</output-path>
     <properties id="javafx-properties">
       <options>
-        <option name="appClass" value="sample.Logowanie" />
+        <option name="appClass" value="logowanie.Logowanie" />
         <option name="description" value="" />
         <option name="htmlPlaceholderId" value="" />
         <option name="nativeBundle" value="all" />
         <option name="title" value="" />
         <option name="vendor" value="" />
         <option name="version" value="" />
+        <option name="width" value="400" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="JavaZaliczenie.jar">
         <element id="module-output" name="JavaZaliczenie" />
       </element>
+      <element id="library" level="project" name="sqlite-jdbc-3.7.2" />
     </root>
   </artifact>
 </component>

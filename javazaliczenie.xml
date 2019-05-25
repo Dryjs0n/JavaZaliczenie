@@ -54,9 +54,9 @@
   
   <!-- JDK definitions -->
   
-  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
-  <path id="jdk.classpath.1.8">
-    <fileset dir="${jdk.home.1.8}">
+  <property name="jdk.bin.1.8_(2)" value="${jdk.home.1.8_(2)}/bin"/>
+  <path id="jdk.classpath.1.8_(2)">
+    <fileset dir="${jdk.home.1.8_(2)}">
       <include name="jre/lib/charsets.jar"/>
       <include name="jre/lib/deploy.jar"/>
       <include name="jre/lib/ext/access-bridge-64.jar"/>
@@ -83,9 +83,9 @@
     </fileset>
   </path>
   
-  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
-  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
-  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  <property name="project.jdk.home" value="${jdk.home.1.8_(2)}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8_(2)}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8_(2)"/>
   
   
   <!-- Project Libraries -->
@@ -96,6 +96,10 @@
   
   
   <!-- Global Libraries -->
+  
+  <path id="library.sqlite-jdbc-3.7.2.classpath">
+    <pathelement location="C:/Users/fdryj/IdeaProjects/JavaZaliczenie/src/sqlite-jdbc-3.7.2.jar"/>
+  </path>
   <!-- Register Custom Compiler Taskdefs -->
   <property name="javac2.home" value="${idea.home}/lib"/>
   <path id="javac2.classpath">
@@ -128,7 +132,7 @@
     <property name="artifact.output.javazaliczenie" value="${basedir}/out/artifacts/JavaZaliczenie"/>
     <mkdir dir="${artifacts.temp.dir}"/>
     <property name="artifact.temp.output.JavaZaliczenie" value="${artifacts.temp.dir}/JavaZaliczenie.jar"/>
-    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath="${jdk.home.1.8}/lib/ant-javafx.jar"/>
+    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath="${jdk.home.1.8_(2)}/lib/ant-javafx.jar"/>
   </target>
   
   <target name="clean.artifact.javazaliczenie" description="clean JavaZaliczenie artifact output">
@@ -144,7 +148,7 @@
       <exclude name="JavaZaliczenie.jar"/>
     </fx:fileset>
     <fx:fileset id="all_JavaZaliczenie" dir="${artifact.temp.output.JavaZaliczenie}" includes="**/*.jar"/>
-    <fx:application id="JavaZaliczenie_id" name="JavaZaliczenie" mainClass="LogowanieApp"/>
+    <fx:application id="JavaZaliczenie_id" name="JavaZaliczenie" mainClass="sample.Logowanie"/>
     <fx:jar destfile="${artifact.temp.output.JavaZaliczenie}/JavaZaliczenie.jar">
       <fx:application refid="JavaZaliczenie_id"/>
       <fileset dir="${artifact.temp.output.JavaZaliczenie}" excludes="**/*.jar"/>
@@ -157,7 +161,7 @@
         <attribute name="Implementation-Vendor" value=""/>
       </manifest>
     </fx:jar>
-    <fx:deploy width="600" height="400" updatemode="background" outdir="${artifact.temp.output.JavaZaliczenie}/deploy" outfile="JavaZaliczenie" nativeBundles="exe">
+    <fx:deploy width="600" height="400" updatemode="background" outdir="${artifact.temp.output.JavaZaliczenie}/deploy" outfile="JavaZaliczenie" nativeBundles="all">
       <fx:application refid="JavaZaliczenie_id"/>
       <fx:resources>
         <fx:fileset refid="all_JavaZaliczenie"/>

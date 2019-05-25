@@ -29,8 +29,6 @@ public class Logowanie extends Application {
         stage.setTitle("Panel Logowania");
         stage.setResizable(false);
         stage.show();
-
-
     }
 
 
@@ -54,6 +52,7 @@ public class Logowanie extends Application {
 
     }
     public static Stage window = new Stage();
+
     public static void main(String[]args){
 
         launch(args);
